@@ -3,7 +3,8 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.formatOnPaste": true,
     "editor.formatOnSave": true,
-    "editor.formatOnType": true
+    "editor.formatOnType": true,
+    
   },
   "typescript.suggest.enabled": true,
   "typescript.suggest.autoImports": true,
@@ -17,7 +18,7 @@
   "typescript.preferences.importModuleSpecifier": "relative",
   "typescript.inlayHints.functionLikeReturnTypes.enabled": true,
   "typescript.inlayHints.variableTypes.enabled": true,
-  "typescript.inlayHints.parameterNames.enabled":"literals",
+  "typescript.inlayHints.parameterNames.enabled":"all",
   "typescript.inlayHints.parameterTypes.enabled": true,
   "typescript.inlayHints.propertyDeclarationTypes.enabled": true,
   "typescript.inlayHints.enumMemberValues.enabled": true,
@@ -28,6 +29,8 @@
   "jest.outputConfig": "neutral",
   "testing.openTesting": "neverOpen",
   "testing.automaticallyOpenTestResults": "neverOpen",
-  "material-icon-theme.activeIconPack": "nest"
+  "material-icon-theme.activeIconPack": "nest",
+  
+  
 
 }
