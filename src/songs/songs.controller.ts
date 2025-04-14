@@ -1,20 +1,26 @@
 import {
   Body,
   Controller,
+  DefaultValuePipe,
   Delete,
   Get,
-  HttpException,
   HttpStatus,
   Inject,
   Param,
   ParseIntPipe,
   Post,
   Put,
+  Query,
+  Req,
   Scope,
+  UseGuards,
 } from '@nestjs/common';
+import { Pagination } from 'nestjs-typeorm-paginate';
+import { ArtistJwtGuard } from '../auth/artists-jwt-guard.js';
 import { Connection } from '../core/shared/constants/connection.js';
 import { CreateSongDTO } from './dto/create-song-dto.js';
 import { UpdateSongDto } from './dto/update-song-dto.js';
+import { Song } from './song.entity.js';
 import { SongsService } from './songs.service';
 
 @Controller({
@@ -35,22 +41,37 @@ export class SongsController {
   }
 
   @Post('/create-one')
-  createOne(@Body() createSongDTO: CreateSongDTO) {
+  @UseGuards(ArtistJwtGuard)
+  createOne(@Body() createSongDTO: CreateSongDTO, @Req() req) {
+    console.log(req.user);
+
     return this.songsService.create(createSongDTO);
   }
 
   @Get('/find-all')
-  findAll() {
-    try {
-      return this.songsService.findAll();
-    } catch (e) {
-      throw new HttpException(
-        'server error',
-        HttpStatus.INTERNAL_SERVER_ERROR,
-        { cause: e },
-      );
-    }
+  findAll(
+    @Query('page', new DefaultValuePipe(1), ParseIntPipe)
+    page = 1,
+    @Query('limit', new DefaultValuePipe(10), ParseIntPipe)
+    limit = 10,
+  ): Promise<Pagination<Song>> {
+    limit = limit > 100 ? 100 : limit;
+    return this.songsService.paginate({
+      page,
+      limit,
+    });
   }
+  // findAll() {
+  //   try {
+  //     return this.songsService.findAll();
+  //   } catch (e) {
+  //     throw new HttpException(
+  //       'server error',
+  //       HttpStatus.INTERNAL_SERVER_ERROR,
+  //       { cause: e },
+  //     );
+  //   }
+  // }
 
   @Get('/find-one/:id')
   findOne(

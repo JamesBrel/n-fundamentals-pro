@@ -30,8 +30,8 @@ export class PlaylistService {
 
     // A user will be the id of the user we are getting from the request
     // when we implemented the user authentication this id will become the loggedIn user id
-    const user = await this.userRepo.findOneBy({ id: playListDTO.user });
-    playList.user = user;
+    // const user = await this.userRepo.findOneBy({ id: playListDTO.user });
+    // playList.user = user;
 
     return this.playListRepo.save(playList);
   }

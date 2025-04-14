@@ -1,5 +1,6 @@
-import { Playlist } from 'src/playlists/playlist.entity';
+import { Exclude } from 'class-transformer';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Playlist } from '../playlists/playlist.entity.js';
 
 @Entity('users')
 export class User {
@@ -12,11 +13,21 @@ export class User {
   @Column()
   lastName: string;
 
-  @Column()
+  @Column({ unique: true })
   email: string;
 
   @Column()
+  @Exclude()
   password: string;
+
+  @Column({ nullable: true, type: 'text' })
+  twoFASecret: string | null;
+
+  @Column({ default: false, type: 'boolean' })
+  enable2FA: boolean;
+
+  @Column()
+  apiKey: string;
 
   /**
    * A user can create many playLists

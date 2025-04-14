@@ -4,34 +4,44 @@ import { AppService } from './app.service';
 
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
+import { dataSourceOptions } from '../db/data-source.js';
+import { ArtistsModule } from './artists/artists.module';
+import { AuthModule } from './auth/auth.module';
 import { LoggerMiddleware } from './core/shared/middlewares/logger/logger.middleware.js';
 import { DevConfigService } from './core/shared/providers/devConfig.service.js';
 import { PlaylistModule } from './playlists/playlist.module.js';
-import { Song } from './songs/song.entity.js';
 import { SongsController } from './songs/songs.controller.js';
 import { SongsModule } from './songs/songs.module';
-
+import { UsersController } from './users/users.controller';
+import { UsersModule } from './users/users.module';
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      type: 'postgres',
-      database: 'spotify-clone-2',
-      host: 'localhost',
-      port: 5432,
-      username: 'postgres',
-      password: 'root',
-      entities: [
-        Song,
-        // Artist,
-        // User,
-        // Playlist
-      ],
-      synchronize: true,
-    }),
+    TypeOrmModule.forRoot(
+      dataSourceOptions,
+
+      // {
+      // type: 'postgres',
+      // database: 'spotify-clone-3',
+      // host: 'localhost',
+      // port: 5432,
+      // username: 'postgres',
+      // password: 'root',
+      // entities: [
+      //   Song,
+      //   Artist,
+      //   User,
+      //   // Playlist
+      // ],
+      // synchronize: true,
+      // }
+    ),
     SongsModule,
     PlaylistModule,
+    AuthModule,
+    UsersModule,
+    ArtistsModule,
   ],
-  controllers: [AppController],
+  controllers: [AppController, UsersController],
   providers: [
     AppService,
     {
